@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Per la mia Bimba ❤️</title>
+
+<style>
+body{
+    margin:0;
+    padding:0;
+    height:100vh;
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    text-align:center;
+}
+
+/* WELCOME */
+#welcome{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,0.8);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:10;
+    transition:opacity .6s;
+}
+
+button{
+    padding:14px 36px;
+    font-size:1.4rem;
+    background:#ff4d6d;
+    color:white;
+    border:none;
+    border-radius:40px;
+}
+
+/* MAIN */
+#main{
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+}
+
+.timer{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
+}
+
+.box{
+    background:rgba(255,255,255,.25);
+    padding:8px 12px;
+    border-radius:10px;
+    min-width:60px;
+}
+
+.num{font-size:1.6rem;font-weight:700}
+.lab{font-size:.65rem}
+
+/* FALLING */
+.fall{
+    position:absolute;
+    top:-40px;
+    animation:fall linear forwards;
+}
+
+@keyframes fall{
+    to{transform:translateY(110vh) rotate(360deg)}
+}
+</style>
+</head>
+
+<body>
+
+<div id="welcome">
+    <h2>Ho una cosa per te…</h2>
+    <button id="startBtn">Clicca qui ❤️</button>
+</div>
+
+<div id="main">
+    <h1>Ti amo Bimba</h1>
+    <div style="font-size:2.5rem">🤍</div>
+    <p>Insieme dal 26 Maggio 2024</p>
+
+    <div class="timer">
+        <div class="box"><div id="d" class="num">0</div><div class="lab">Giorni</div></div>
+        <div class="box"><div id="h" class="num">00</div><div class="lab">Ore</div></div>
+        <div class="box"><div id="m" class="num">00</div><div class="lab">Min</div></div>
+        <div class="box"><div id="s" class="num">00</div><div class="lab">Sec</div></div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+    const startBtn = document.getElementById("startBtn");
+    const welcome = document.getElementById("welcome");
+    const main = document.getElementById("main");
+
+    startBtn.addEventListener("click", function(){
+        welcome.style.opacity = "0";
+        setTimeout(()=>welcome.style.display="none",600);
+        main.style.display="flex";
+        startTimer();
+        setInterval(falling,400);
+    });
+
+    function startTimer(){
+        const start = new Date("2024-05-26T00:00:00");
+
+        function update(){
+            const now = new Date();
+            const diff = now - start;
+
+            d.textContent = Math.floor(diff/86400000);
+            h.textContent = String(Math.floor(diff/3600000)%24).padStart(2,"0");
+            m.textContent = String(Math.floor(diff/60000)%60).padStart(2,"0");
+            s.textContent = String(Math.floor(diff/1000)%60).padStart(2,"0");
+        }
+
+        update();
+        setInterval(update,1000);
+    }
+
+    const icons=["❤️","🤍","💛","💜","🧸"];
+
+    function falling(){
+        const el=document.createElement("div");
+        el.className="fall";
+        el.textContent=icons[Math.floor(Math.random()*icons.length)];
+        el.style.left=Math.random()*100+"vw";
+        el.style.fontSize=(Math.random()*1.5+1.3)+"rem";
+        el.style.animationDuration=(Math.random()*3+4)+"s";
+        document.body.appendChild(el);
+        setTimeout(()=>el.remove(),7000);
+    }
+
+});
+</script>
+
+</body>
+</html>
